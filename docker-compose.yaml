@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  golang:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    image: danielantoniolima/fullcycle:latest
+    container_name: golang
+    ports:
+      - "9000:9000"

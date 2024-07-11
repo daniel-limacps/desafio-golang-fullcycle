@@ -1,0 +1,23 @@
+# Usar a imagem do Golang com Alpine
+FROM golang:alpine3.20 AS builder
+
+# Criar um diretório para a aplicação
+WORKDIR /usr/src/desafio
+
+# Copiar o diretório atual para o diretório da aplicação no container
+COPY . .
+
+# Executar o arquivo Go
+RUN go build -ldflags="-s -w" -o desafio main.go
+
+FROM golang:alpine3.20
+
+WORKDIR /usr/src/app
+
+COPY --from=builder /usr/src/desafio/desafio .
+
+RUN rm -rf /usr/src/desafio
+
+EXPOSE 9000
+
+CMD ["./desafio"]
