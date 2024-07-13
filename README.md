@@ -6,14 +6,17 @@
 
   - [Dockerhub - Desafio](https://hub.docker.com/r/danielantoniolima/fullcycle)
 
-  - Segui os passos da criação do Arquivo executável do GO, porem o executável ficom com mais de 4MB.
+  - Arquivo com menos de 2MB
+  
   - Eu utilizei o comando:
 
   - go build -ldflags="-s -w" -o desafio main.go
 
-  - Sem o -ldflags, o executável passa para 7MB.
+  - Instalação do upx
 
-  - Existe alguma outra forma de compilar o projeto para reduzir seu Tamanho?
+  - apk add --no-cache upx
+
+  - upx --best --ultra-brute desafio
 
   - Aguardo o Retorno.
 
