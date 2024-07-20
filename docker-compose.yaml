@@ -7,5 +7,3 @@ services:
       dockerfile: Dockerfile.prod
     image: danielantoniolima/fullcycle:latest
     container_name: golang
-    ports:
-      - "9000:9000"

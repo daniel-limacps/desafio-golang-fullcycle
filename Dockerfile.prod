@@ -1,31 +1,22 @@
-# Usar a imagem do Golang com Alpine
-FROM golang:alpine3.20 AS builder
+# Use a imagem do Go para compilar o binário
+FROM golang:1.21-alpine3.20 AS builder
 
-# instalar uma vesão do golang
-RUN apk add --no-cache upx
+# Defina o diretório de trabalho
+WORKDIR  /usr/src/app
 
-# Criar um diretório para a aplicação
-WORKDIR /usr/src/app
-
-# Copiar o diretório atual para o diretório da aplicação no container
+# Copie o código fonte para o diretório de trabalho
 COPY . .
 
-# Executar o arquivo Go
-# RUN go build -ldflags="-s -w" -o desafio main.go
-RUN go build -ldflags="-s -w" -o desafio main.go
+# Compile o binário estático
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o desafio main.go
 
-# Comprima o executável usando UPX
-RUN upx --best --ultra-brute desafio
-
-FROM alpine:latest
+# Use a imagem scratch que é a menor possível
+FROM scratch
 
 WORKDIR /usr/src/app
 
-# Copie o executável comprimido do estágio de build
+# Copie o binário compilado da etapa anterior
 COPY --from=builder /usr/src/app/desafio .
 
-# Exponha a porta em que a aplicação irá rodar (exemplo: 8080)
-EXPOSE 8080
-
-# Defina o comando para rodar a aplicação
-CMD tail -f /dev/null
+# Defina o ponto de entrada do contêiner
+ENTRYPOINT ["./desafio"]
