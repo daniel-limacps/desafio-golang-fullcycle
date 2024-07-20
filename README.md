@@ -10,15 +10,7 @@
   
   - Eu utilizei o comando:
 
-  - go build -ldflags="-s -w" -o desafio main.go
-
-  - Instalação do upx
-
-  - apk add --no-cache upx
-
-  - upx --best --ultra-brute desafio
-
-  - Aguardo o Retorno.
+  - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o desafio main.go
 
   - Att...
 
