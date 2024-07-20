@@ -1,22 +1,15 @@
-# Use a imagem do Go para compilar o binário
 FROM golang:1.21-alpine3.20 AS builder
 
-# Defina o diretório de trabalho
 WORKDIR  /usr/src/app
 
-# Copie o código fonte para o diretório de trabalho
 COPY . .
 
-# Compile o binário estático
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o desafio main.go
 
-# Use a imagem scratch que é a menor possível
 FROM scratch
 
 WORKDIR /usr/src/app
 
-# Copie o binário compilado da etapa anterior
 COPY --from=builder /usr/src/app/desafio .
 
-# Defina o ponto de entrada do contêiner
 ENTRYPOINT ["./desafio"]
